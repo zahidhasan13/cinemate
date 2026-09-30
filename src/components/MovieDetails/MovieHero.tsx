@@ -68,16 +68,16 @@ const MovieHero: React.FC<MovieHeroProps> = ({
             className="object-cover object-[65%_top] sm:object-top"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />
+          <div className="absolute inset-0 sm:bg-linear-to-br from-zinc-800 via-zinc-900 to-black" />
         )}
       </div>
 
       {/* Cinematic overlays */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/60 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/20 to-black/40" />
+      <div className="absolute inset-0 bg-linear-to-r from-[#141414] via-[#141414]/60 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-[#141414] via-[#141414]/20 to-black/40" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,transparent_30%,rgba(0,0,0,0.55)_100%)]" />
       {/* Blend into the page below */}
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#141414] to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-[#141414] to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto h-full px-4 sm:px-8 lg:px-12 flex items-end md:items-center gap-10 pb-16 md:pb-0">

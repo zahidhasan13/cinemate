@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import MovieHero from "@/components/MovieDetails/MovieHero";
 import { useGetMovieDetailsQuery } from "@/redux/services/tmdbApi";
 import CastSection from "@/components/MovieDetails/CastSection";
+import TrailerSection from "@/components/MovieDetails/TrailerSection";
 
 const MovieDetailsPage = () => {
   const params = useParams();
@@ -21,6 +22,16 @@ const MovieDetailsPage = () => {
   } = useGetMovieDetailsQuery(movieId as number, {
     skip: !movieId || isNaN(movieId),
   });
+
+  //   console.log(movie.videos.results);
+
+  //   Trailer
+  const trailer = movie?.videos?.results?.find(
+    (vid: any) => vid.type === "Trailer" && vid.site === "YouTube",
+  );
+  const trailerKey =
+    trailer?.key ||
+    movie?.videos?.results?.find((vid: any) => vid.site === "YouTube")?.key;
 
   if (isLoading) {
     return (
@@ -42,6 +53,7 @@ const MovieDetailsPage = () => {
     <div className="bg-gray-950 min-h-screen font-sans pb-12">
       <MovieHero movie={movie} onPlayTrailer={() => {}} />
       <CastSection cast={movie.credits.cast} />
+      <TrailerSection videoId={trailerKey} />
     </div>
   );
 };
