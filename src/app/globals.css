@@ -20,7 +20,20 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  color: white;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Swiper Custom Pagination Colors */
+.custom-swiper .swiper-pagination-bullet {
+  background: #ffffff !important;
+  opacity: 0.5;
+}
+
+.custom-swiper .swiper-pagination-bullet-active {
+  background: #e50914 !important;
+  opacity: 1;
+  width: 24px;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
 }
