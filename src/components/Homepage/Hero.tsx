@@ -15,7 +15,10 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
 // RTK Query Hook import
-import { useGetPopularMoviesQuery } from "@/redux/services/tmdbApi";
+import {
+  useGetMovieDetailsQuery,
+  useGetPopularMoviesQuery,
+} from "@/redux/services/tmdbApi";
 import HeroSkeleton from "../skeleton/HeroSkeleton";
 
 interface Movie {
@@ -30,7 +33,8 @@ interface Movie {
 const Hero = () => {
   // Redux RTK Query hook calling
   const { data, isLoading, isError } = useGetPopularMoviesQuery(1);
-  console.log(data, "data");
+  const { datas } = useGetMovieDetailsQuery(977942);
+  console.log(datas, "datas");
 
   if (isLoading) {
     return <HeroSkeleton />;
