@@ -46,7 +46,7 @@ const MovieHero: React.FC<MovieHeroProps> = ({
 
   return (
     <section className="relative w-full h-[560px] sm:h-[680px] text-white overflow-hidden bg-[#141414]">
-      {/* One-time entrance animation (respects reduced motion) */}
+      {/* One-time entrance animation */}
       <style>{`
         @keyframes heroFade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
         @keyframes heroZoom { from { transform: scale(1.06); } to { transform: scale(1); } }
@@ -57,31 +57,37 @@ const MovieHero: React.FC<MovieHeroProps> = ({
         }
       `}</style>
 
-      {/* Backdrop */}
-      <div className="hero-bg absolute inset-0">
-        {movie?.backdrop_path ? (
+      {/* Backdrop Image Fix */}
+      <div className="hero-bg absolute inset-0 w-full h-full">
+        {movie?.backdrop_path || movie?.poster_path ? (
           <Image
-            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/original${
+              movie.backdrop_path || movie.poster_path
+            }`}
             alt={movie?.title || "Movie Backdrop"}
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[65%_top] sm:object-top"
+            className="object-cover object-center sm:object-[65%_top]"
           />
         ) : (
-          <div className="absolute inset-0 sm:bg-linear-to-br from-zinc-800 via-zinc-900 to-black" />
+          <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />
         )}
       </div>
 
-      {/* Cinematic overlays */}
-      <div className="absolute inset-0 bg-linear-to-r from-[#141414] via-[#141414]/60 to-transparent" />
-      <div className="absolute inset-0 bg-linear-to-t from-[#141414] via-[#141414]/20 to-black/40" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,transparent_30%,rgba(0,0,0,0.55)_100%)]" />
-      {/* Blend into the page below */}
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-[#141414] to-transparent" />
+      {/* Cinematic Overlays (Fixed for Mobile) */}
+      {/* 1. Mobile specific subtle gradient to keep image visible */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/70 to-black/30 sm:hidden" />
+
+      {/* 2. Desktop side gradient */}
+      <div className="hidden sm:block absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/60 to-transparent" />
+      <div className="hidden sm:block absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/20 to-black/40" />
+
+      {/* Blend bottom */}
+      <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 bg-gradient-to-t from-[#141414] to-transparent pointer-events-none" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto h-full px-4 sm:px-8 lg:px-12 flex items-end md:items-center gap-10 pb-16 md:pb-0">
+      <div className="relative z-10 max-w-7xl mx-auto h-full px-4 sm:px-8 lg:px-12 flex items-end md:items-center gap-10 pb-12 sm:pb-16 md:pb-0">
         {/* Poster */}
         <div className="hero-poster hidden md:block relative w-64 lg:w-72 aspect-[2/3] shrink-0 rounded-lg overflow-hidden bg-zinc-900 ring-1 ring-white/15 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]">
           <Image
@@ -99,14 +105,14 @@ const MovieHero: React.FC<MovieHeroProps> = ({
         </div>
 
         {/* Info */}
-        <div className="hero-content flex-1 max-w-2xl space-y-4 sm:space-y-5">
+        <div className="hero-content flex-1 max-w-2xl space-y-3 sm:space-y-5">
           {/* Title */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.95] drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+          <h1 className="text-3xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.95] drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
             {movie?.title || "Untitled Movie"}
           </h1>
 
           {/* Meta row */}
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm sm:text-base font-medium">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs sm:text-base font-medium">
             {matchPercent !== null && (
               <span className="text-[#46d369] font-bold">
                 {matchPercent}% Match
@@ -123,20 +129,20 @@ const MovieHero: React.FC<MovieHeroProps> = ({
             </span>
             {movie?.vote_average ? (
               <span className="flex items-center gap-1 text-zinc-200">
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
                 {movie.vote_average.toFixed(1)}
               </span>
             ) : null}
           </div>
 
           {/* Overview */}
-          <p className="text-zinc-200 text-sm sm:text-base lg:text-lg leading-relaxed line-clamp-3 sm:line-clamp-4 max-w-xl drop-shadow-md">
+          <p className="text-zinc-200 text-xs sm:text-base lg:text-lg leading-relaxed line-clamp-3 sm:line-clamp-4 max-w-xl drop-shadow-md">
             {movie?.overview || "No overview available for this movie."}
           </p>
 
           {/* Genres */}
           {movie?.genres && movie.genres.length > 0 && (
-            <ul className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-400">
+            <ul className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm text-zinc-400">
               {movie.genres.map((genre, i) => (
                 <li key={genre.id} className="flex items-center gap-2">
                   {i > 0 && (
@@ -149,13 +155,13 @@ const MovieHero: React.FC<MovieHeroProps> = ({
           )}
 
           {/* Actions */}
-          <div className="flex flex-wrap items-center gap-3 pt-2">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-1 sm:pt-2">
             <Link href="#trailer">
               <button
                 onClick={onPlayTrailer}
-                className="bg-white text-black hover:bg-white/80 active:scale-95 font-bold text-base sm:text-lg px-6 sm:px-8 py-2.5 sm:py-3 rounded-md flex items-center gap-2.5 transition cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="bg-white text-black hover:bg-white/80 active:scale-95 font-bold text-sm sm:text-lg px-5 sm:px-8 py-2 sm:py-3 rounded-md flex items-center gap-2 sm:gap-2.5 transition cursor-pointer"
               >
-                <Play className="w-6 h-6 fill-black" />
+                <Play className="w-4 h-4 sm:w-6 sm:h-6 fill-black" />
                 Watch Trailer
               </button>
             </Link>
@@ -164,19 +170,19 @@ const MovieHero: React.FC<MovieHeroProps> = ({
               <button
                 onClick={onAddToList}
                 aria-label="Add to My List"
-                className="bg-zinc-500/50 hover:bg-zinc-500/40 backdrop-blur-md active:scale-95 text-white font-semibold px-4 sm:px-5 py-2.5 sm:py-3 rounded-md flex items-center gap-2 transition cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="bg-zinc-500/50 hover:bg-zinc-500/40 backdrop-blur-md active:scale-95 text-white font-semibold px-3.5 sm:px-5 py-2 sm:py-3 rounded-md flex items-center gap-1.5 sm:gap-2 transition cursor-pointer text-xs sm:text-base"
               >
-                <Plus className="w-5 h-5" />
-                <span className="hidden sm:inline">My List</span>
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>My List</span>
               </button>
             )}
 
             {onMoreInfo && (
               <button
                 onClick={onMoreInfo}
-                className="bg-zinc-500/50 hover:bg-zinc-500/40 backdrop-blur-md active:scale-95 text-white font-semibold px-4 sm:px-6 py-2.5 sm:py-3 rounded-md flex items-center gap-2 transition cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="bg-zinc-500/50 hover:bg-zinc-500/40 backdrop-blur-md active:scale-95 text-white font-semibold px-3.5 sm:px-6 py-2 sm:py-3 rounded-md flex items-center gap-1.5 sm:gap-2 transition cursor-pointer text-xs sm:text-base"
               >
-                <Info className="w-5 h-5" />
+                <Info className="w-4 h-4 sm:w-5 sm:h-5" />
                 More Info
               </button>
             )}

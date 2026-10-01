@@ -119,7 +119,7 @@ export const MovieList: React.FC<MovieListProps> = ({
               </div>
 
               <Link
-                href={`/movies/${movie.id}`}
+                href={`/movie/${movie.id}`}
                 className="w-full mt-2 py-2 rounded-lg bg-zinc-800/60 hover:bg-red-600 text-zinc-300 hover:text-white text-xs font-semibold flex items-center justify-center transition-all duration-200"
               >
                 View Details

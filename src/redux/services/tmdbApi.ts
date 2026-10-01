@@ -10,6 +10,7 @@ export interface DiscoverParams {
   sort_by?: string;
   with_genres?: number | string;
   "vote_average.gte"?: number;
+  "vote_count.gte"?: number;
   primary_release_year?: string | number;
 }
 
@@ -82,6 +83,13 @@ export const tmdbApi = createApi({
           );
         }
 
+        if (params["vote_count.gte"]) {
+          queryParams.append(
+            "vote_count.gte",
+            String(params["vote_count.gte"]),
+          );
+        }
+
         if (params.primary_release_year) {
           queryParams.append(
             "primary_release_year",
@@ -91,6 +99,12 @@ export const tmdbApi = createApi({
 
         return `/discover/movie?${queryParams.toString()}`;
       },
+    }),
+
+    // 10. Get Movies By Mood
+    getMoviesByMood: builder.query({
+      query: (genreIds: string) =>
+        `/discover/movie?api_key=${API_KEY}&with_genres=${genreIds}&sort_by=popularity.desc&vote_count.gte=100`,
     }),
   }),
 });
@@ -105,4 +119,6 @@ export const {
   useGetMovieGenresQuery,
   useGetUpcomingMovieQuery,
   useGetDiscoverMovieQuery,
+  useGetMoviesByMoodQuery,
+  useLazyGetDiscoverMovieQuery,
 } = tmdbApi;
