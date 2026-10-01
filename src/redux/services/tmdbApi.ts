@@ -4,6 +4,15 @@ const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 const BASE_URL =
   process.env.NEXT_PUBLIC_TMDB_BASE_URL || "https://api.themoviedb.org/3";
 
+// Discover Query Params Interface Definition
+export interface DiscoverParams {
+  page?: number;
+  sort_by?: string;
+  with_genres?: number | string;
+  "vote_average.gte"?: number;
+  primary_release_year?: string | number;
+}
+
 export const tmdbApi = createApi({
   reducerPath: "tmdbApi",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
@@ -47,9 +56,41 @@ export const tmdbApi = createApi({
     getMovieGenres: builder.query({
       query: () => `/genre/movie/list?api_key=${API_KEY}`,
     }),
-    // 8. Movie Genres List
+
+    // 8. Upcoming Movies List
     getUpcomingMovie: builder.query({
-      query: () => `/movie/upcoming?api_key=${API_KEY}`,
+      query: (page = 1) => `/movie/upcoming?api_key=${API_KEY}&page=${page}`,
+    }),
+
+    // 9. Discover Movie (Dynamic Filter Enabled)
+    getDiscoverMovie: builder.query({
+      query: (params: DiscoverParams = {}) => {
+        const queryParams = new URLSearchParams({
+          api_key: API_KEY || "",
+          page: String(params.page || 1),
+          sort_by: params.sort_by || "popularity.desc",
+        });
+
+        if (params.with_genres) {
+          queryParams.append("with_genres", String(params.with_genres));
+        }
+
+        if (params["vote_average.gte"]) {
+          queryParams.append(
+            "vote_average.gte",
+            String(params["vote_average.gte"]),
+          );
+        }
+
+        if (params.primary_release_year) {
+          queryParams.append(
+            "primary_release_year",
+            String(params.primary_release_year),
+          );
+        }
+
+        return `/discover/movie?${queryParams.toString()}`;
+      },
     }),
   }),
 });
@@ -63,4 +104,5 @@ export const {
   useGetPopularTVShowsQuery,
   useGetMovieGenresQuery,
   useGetUpcomingMovieQuery,
+  useGetDiscoverMovieQuery,
 } = tmdbApi;

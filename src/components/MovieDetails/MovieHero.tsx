@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Star, Play, Plus, Info } from "lucide-react";
+import Link from "next/link";
 
 interface Genre {
   id: number;
@@ -149,13 +150,15 @@ const MovieHero: React.FC<MovieHeroProps> = ({
 
           {/* Actions */}
           <div className="flex flex-wrap items-center gap-3 pt-2">
-            <button
-              onClick={onPlayTrailer}
-              className="bg-white text-black hover:bg-white/80 active:scale-95 font-bold text-base sm:text-lg px-6 sm:px-8 py-2.5 sm:py-3 rounded-md flex items-center gap-2.5 transition cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              <Play className="w-6 h-6 fill-black" />
-              Watch Trailer
-            </button>
+            <Link href="#trailer">
+              <button
+                onClick={onPlayTrailer}
+                className="bg-white text-black hover:bg-white/80 active:scale-95 font-bold text-base sm:text-lg px-6 sm:px-8 py-2.5 sm:py-3 rounded-md flex items-center gap-2.5 transition cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                <Play className="w-6 h-6 fill-black" />
+                Watch Trailer
+              </button>
+            </Link>
 
             {onAddToList && (
               <button

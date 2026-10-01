@@ -7,13 +7,15 @@ interface TrailerSectionProps {
 }
 
 const TrailerSection: React.FC<TrailerSectionProps> = ({ videoId }) => {
-  // videoId na thakle eita render hobe na
   if (!videoId) {
     return null;
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <section
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+      id="trailer"
+    >
       <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 border-l-4 border-red-600 pl-3">
         Official Trailer
       </h2>
