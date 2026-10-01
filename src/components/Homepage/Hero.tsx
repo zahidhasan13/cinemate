@@ -33,8 +33,8 @@ interface Movie {
 const Hero = () => {
   // Redux RTK Query hook calling
   const { data, isLoading, isError } = useGetPopularMoviesQuery(1);
-  const { datas } = useGetMovieDetailsQuery(977942);
-  console.log(datas, "datas");
+  // const { datas } = useGetMovieDetailsQuery(977942);
+  // console.log(datas, "datas");
 
   if (isLoading) {
     return <HeroSkeleton />;

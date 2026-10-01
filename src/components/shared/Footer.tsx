@@ -2,14 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import {
-  Facebook,
-  Instagram,
-  Youtube,
-  Github,
-  Film,
-  X, // Twitter er bodole X icon use kora hoyeche
-} from "lucide-react";
+import { Film } from "lucide-react";
 
 const Footer = () => {
   return (
