@@ -6,6 +6,7 @@ import MovieHero from "@/components/MovieDetails/MovieHero";
 import { useGetMovieDetailsQuery } from "@/redux/services/tmdbApi";
 import CastSection from "@/components/MovieDetails/CastSection";
 import TrailerSection from "@/components/MovieDetails/TrailerSection";
+import SimilarMovies from "@/components/MovieDetails/SimilarMovies";
 
 const MovieDetailsPage = () => {
   const params = useParams();
@@ -23,7 +24,7 @@ const MovieDetailsPage = () => {
     skip: !movieId || isNaN(movieId),
   });
 
-  //   console.log(movie.videos.results);
+  console.log(movie?.similar.results);
 
   //   Trailer
   const trailer = movie?.videos?.results?.find(
@@ -54,6 +55,7 @@ const MovieDetailsPage = () => {
       <MovieHero movie={movie} onPlayTrailer={() => {}} />
       <CastSection cast={movie.credits.cast} />
       <TrailerSection videoId={trailerKey} />
+      <SimilarMovies movies={movie?.similar.results} />
     </div>
   );
 };

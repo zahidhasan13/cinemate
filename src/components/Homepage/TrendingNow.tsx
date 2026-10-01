@@ -41,7 +41,7 @@ const TrendingNow = () => {
   return (
     <section className="relative w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 bg-black text-white">
       {/* Section Title */}
-      <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight mb-4 sm:mb-6">
+      <h2 className="text-xl sm:text-2xl font-bold text-white mb-6 border-l-4 border-red-600 pl-3">
         Trending Now
       </h2>
 

@@ -44,12 +44,9 @@ const UpcomingMovies = () => {
       {/* Section Header */}
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight flex items-center gap-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-6 border-l-4 border-red-600 pl-3">
             Upcoming Movies
           </h2>
-          <p className="text-xs sm:text-sm text-gray-400 mt-0.5 sm:mt-1">
-            Movies releasing soon in theaters and streaming platforms
-          </p>
         </div>
       </div>
 
